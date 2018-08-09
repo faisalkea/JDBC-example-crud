@@ -37,20 +37,15 @@ public class MyRestController {
             return new ResponseEntity<>(users, HttpStatus.OK);
 
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Something went wrong: " + e);
+            logger.log(Level.SEVERE, "Something Went Wrong: " + e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<User> findUserById(@PathVariable("id") int id) {
-        try {
-            User userById = userService.findUserById(id);
-            return new ResponseEntity<>(userById, HttpStatus.OK);
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, "Something went wrong: " + e);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        User userById = userService.findUserById(id);
+        return new ResponseEntity<>(userById, HttpStatus.OK);
     }
 
     @PostMapping
