@@ -37,7 +37,7 @@ public class MyRestController {
             return new ResponseEntity<>(users, HttpStatus.OK);
 
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Something Went Wrong: " + e);
+            logger.log(Level.SEVERE, "Something went wrong: " + e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
