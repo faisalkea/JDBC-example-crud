@@ -1,4 +1,4 @@
-package jdbc.mysql.mvc.demo;
+package jdbc.mysql.mvc.demo.models;
 
 public class User {
 
