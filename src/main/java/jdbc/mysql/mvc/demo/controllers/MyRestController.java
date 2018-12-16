@@ -24,53 +24,100 @@ import java.util.logging.Logger;
 @RequestMapping("/user")
 public class MyRestController {
 
-    Logger logger = Logger.getLogger(MyRestController.class.getName());
+    private Logger logger = Logger.getLogger(MyRestController.class.getName());
 
     @Autowired
     UserService userService;
 
+    @GetMapping("/ajax")
+    @ResponseBody
+    public ResponseEntity<String> ajax() {
+        logger.info("Get AJAX data");
+
+        String data = "Dette er data fra BE";
+
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(data, HttpStatus.OK);
+    }
+
     @GetMapping
     @ResponseBody
     public ResponseEntity<List<User>> listAll() {
+        logger.info("List all users");
+
         try {
             List<User> users = userService.getUsers();
             return new ResponseEntity<>(users, HttpStatus.OK);
 
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Something Went Wrong: " + e);
+            logger.severe("Something Went Wrong: " + e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<User> findUserById(@PathVariable("id") int id) {
+        logger.info("List user by id: " + id);
+
         try {
             User userById = userService.findUserById(id);
             return new ResponseEntity<>(userById, HttpStatus.OK);
 
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Something went wrong: " + e);
+            logger.severe("Something went wrong: " + e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
     }
 
     @PostMapping
     public ResponseEntity<User> addUser(@RequestBody User user) {
-        User addedUser = userService.addUser(user);
-        return new ResponseEntity<>(addedUser, HttpStatus.OK);
+        logger.info("Add user");
+
+        try {
+            User addedUser = userService.addUser(user);
+            return new ResponseEntity<>(addedUser, HttpStatus.OK);
+
+        } catch (Exception e) {
+            logger.severe("Something went wrong: " + e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable("id") int id, @RequestBody User user) {
-        User updatedUser = userService.updateUser(id, user);
-        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+        logger.info("Update user with id: " + id);
+
+        try {
+            User updatedUser = userService.updateUser(id, user);
+            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+
+        } catch (Exception e) {
+            logger.severe("Something went wrong: " + e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable("id") int id) {
-        Boolean deleted = userService.deleteUser(id);
-        if (deleted) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        logger.info("Delete user with id: " + id);
+
+        try {
+            Boolean deleted = userService.deleteUser(id);
+            if (deleted) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+
+        } catch (Exception e) {
+            logger.severe("Something went wrong: " + e);
         }
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -78,9 +125,16 @@ public class MyRestController {
 
     @GetMapping("/exist")
     public ResponseEntity<?> userExists(@RequestParam String name, @RequestParam String email) {
-        boolean exist = userService.userExist(name, email);
-        if (exist) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        logger.info("Does user exist");
+
+        try {
+            boolean exist = userService.userExist(name, email);
+            if (exist) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+
+        } catch (Exception e) {
+            logger.severe("Something went wrong: " + e);
         }
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

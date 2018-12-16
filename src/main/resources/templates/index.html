@@ -45,13 +45,23 @@
         </tbody>
     </table>
     <div>
-        <a href="create.html">
+        <a id="create" href="create.html">
             <button class="btn btn-primary">Create new student</button>
         </a>
+
+        <button id="toggleButton" class="btn btn-primary">Toggle</button>
+
+        <button id="data" class="btn btn-primary">Get Data</button>
+        <button id="clear" class="btn btn-primary">Clear data</button>
+
+        <div id="blogs"></div>
+
     </div>
 </div>
 
 <script th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>
+<script th:src="test.js"> test(); </script>
+
 </body>
 
 </html>

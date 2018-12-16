@@ -59,10 +59,12 @@ public class UserRepoImpl implements UserRepo {
     public boolean userExist(String name, String email) {
         String sql = "SELECT count(*) FROM user WHERE name = ? and email=?";
         int count = template.queryForObject(sql, Integer.class, name, email);
-        if (count == 0) {
+        /*if (count == 0) {
             return false;
         } else {
             return true;
-        }
+        }*/
+        return count > 0;
     }
+
 }
